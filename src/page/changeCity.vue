@@ -1,0 +1,46 @@
+<template>
+    <div class="oage-changeCity">
+        <el-row>
+            <Province/>
+        </el-row>
+        <el-row>
+            <hot title="热门城市:" :list="hotList" />
+        </el-row>
+        <el-row>
+            <hot title="最近访问:" :list="rencenList" />
+        </el-row>
+        <el-row>
+            <Category/>
+        </el-row>
+    </div>
+</template>
+<script>
+import Province from "@/components/changeCity/province.vue"
+import hot from "@/components/changeCity/hot.vue"
+import Category from '@/components/changeCity/category.vue'
+import api from '@/api/index.js'
+export default {
+    data(){
+        return {
+             hotList:["哈尔滨",'成都','浙江','杭州'],
+             rencenList:["哈尔滨",'成都','浙江','杭州']
+        }
+    },
+    created(){
+        api.getHotCity().then(res=>{
+            this.hotList = res.data.data.map(item=>item.name)
+        })
+        api.getRecentCity().then(res=>{
+            this.rencenList = res.data.data.map(item=>item.name)
+        })
+    },
+    components:{
+        Province,
+        hot,
+        Category
+    }
+}
+</script>
+<style lang="scss" >
+    @import '@/assets/css/changecity/hot.scss';
+</style>
